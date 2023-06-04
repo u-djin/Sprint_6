@@ -1,7 +1,9 @@
 package com.example;
 
+import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
+import org.hamcrest.MatcherAssert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.MockitoAnnotations;
@@ -14,11 +16,11 @@ import java.util.List;
 @RunWith(Parameterized.class)
 public class AnimalTest {
 
-    private String animalType;
+    private String animalKind;
     private List<String> food;
 
-    public AnimalTest(String animalType, List<String> food) {
-        this.animalType = animalType;
+    public AnimalTest(String animalKind, List<String> food) {
+        this.animalKind = animalKind;
         this.food = food;
     }
 
@@ -40,9 +42,10 @@ public class AnimalTest {
     public void getFoodTest() throws Exception {
         Animal animal = new Animal();
         try {
-            List<String> actualFood = animal.getFood(animalType);
+            List<String> actualFood = animal.getFood(animalKind);
             assertEquals(food, actualFood);
         } catch (Exception e) {
+            MatcherAssert.assertThat(animalKind, allOf(not(equalTo("Травоядное")), not(equalTo("Хищник"))));
             assertEquals("Неизвестный вид животного, используйте значение Травоядное или Хищник", e.getMessage());
         }
     }

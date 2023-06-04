@@ -1,7 +1,9 @@
 package com.example;
 
+import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
+import org.hamcrest.MatcherAssert;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,19 +17,21 @@ import java.util.List;
 @RunWith(Parameterized.class)
 public class FelineTest {
     private int kittensCount;
+    private String animalKind;
 
-    public FelineTest(int kittensCount) {
+    public FelineTest(int kittensCount, String animalKind) {
         this.kittensCount = kittensCount;
+        this.animalKind = animalKind;
     }
 
 
 
     @Parameterized.Parameters
-    public static Object[] kittensData() {
-        return new Object[] {
-                7,
-                0,
-                -1      //здесь тест на getKittens упадёт. отчёт в Jacoco делался с закомменченной строкой
+    public static Object[][] kittensData() {
+        return new Object[][] {
+                {7, "Хищник"},
+                {0, "Хищник"},
+                {-1, "Хищник"}      //здесь тест на getKittens упадёт
         };
     }
 
@@ -60,10 +64,11 @@ public class FelineTest {
     @Test
     public void eatMeatTest() throws Exception {
         try {
-            Mockito.when(felineSpy.getFood("Хищник")).thenReturn(List.of("Животные", "Птицы", "Рыба"));
+            Mockito.when(felineSpy.getFood(animalKind)).thenReturn(List.of("Животные", "Птицы", "Рыба"));
             felineSpy.eatMeat();
             Mockito.verify(felineSpy, Mockito.times(1)).eatMeat();
         } catch (Exception e) {
+            MatcherAssert.assertThat(animalKind, allOf(not(equalTo("Травоядное")), not(equalTo("Хищник"))));
             assertEquals("Неизвестный вид животного, используйте значение Травоядное или Хищник", e.getMessage());
         }
     }

@@ -1,5 +1,6 @@
 package com.example;
 
+import org.hamcrest.MatcherAssert;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,6 +12,7 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.List;
 
+import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
 @RunWith(Parameterized.class)
@@ -47,6 +49,7 @@ public class LionTest {
             Lion lion = new Lion(feline, sex);
             Assert.assertEquals(lion.hasMane, hasMane);
         } catch (Exception e) {
+            MatcherAssert.assertThat(sex, allOf(not(equalTo("Самец")), not(equalTo("Самка"))));
             Assert.assertEquals("Используйте допустимые значения пола животного - самец или самка", e.getMessage());
         }
     }
@@ -63,10 +66,8 @@ public class LionTest {
     @Test
     public void doesHaveManeTest() throws Exception{
         Lion lionFemale = new Lion(feline, "Самка");
-        System.out.printf("Самка: hasMane = %b\n", lionFemale.hasMane);
         assertFalse(lionFemale.doesHaveMane());
         Lion lionMale = new Lion(feline, "Самец");
-        System.out.printf("Самец: hasMane = %b\n", lionMale.hasMane);
         assertTrue(lionMale.doesHaveMane());
     }
 
