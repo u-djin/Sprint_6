@@ -9,8 +9,8 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CatTest {
-        @Mock
-    Feline feline;
+    @Mock
+    private Feline feline;
 
     @Test
     public void getSoundTest() {

@@ -34,7 +34,7 @@ public class AnimalTest {
         return new Object[][] {
                 {"Травоядное", List.of("Трава", "Различные растения")},
                 {"Хищник", List.of("Животные", "Птицы", "Рыба")},
-                {"нечто", Collections.emptyList()},
+                {"нечто", List.of("любое значение для конструктора")}
         };
     }
 
